@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador de Plagas — Fibonacci</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body>
+
+  <!-- ENCABEZADO -->
+  <header class="hero">
+    <div class="hero__bg-grid"></div>
+    <div class="hero__content">
+      <span class="hero__tag">Desafío Web — Fibonacci</span>
+      <h1 class="hero__title">SIMULADOR<br>DE PLAGAS</h1>
+      <p class="hero__sub">Crecimiento poblacional de insectos modelado con la Serie de Fibonacci</p>
+      <div class="hero__author">Proyecto: Matemáticas que resuelven problemas</div>
+    </div>
+    <div class="hero__bug" aria-hidden="true">🦗</div>
+  </header>
+
+  <main class="main-wrap">
+
+    <!-- CONTEXTO DEL PROBLEMA -->
+    <section class="section" id="contexto">
+      <div class="section__label">01 — Contexto del problema</div>
+      <h2 class="section__title">¿Por qué las plagas crecen como Fibonacci?</h2>
+      <div class="context-grid">
+        <div class="context-card">
+          <span class="context-card__icon">🌿</span>
+          <h3>El problema real</h3>
+          <p>Los agricultores y biólogos necesitan predecir cuántos insectos plaga habrá en los próximos meses para decidir cuándo y cuánto pesticida aplicar. Una predicción errónea puede arruinar una cosecha o desperdiciar recursos.</p>
+        </div>
+        <div class="context-card">
+          <span class="context-card__icon">📐</span>
+          <h3>La solución matemática</h3>
+          <p>Muchas plagas (pulgones, saltamontes, langostas) tienen ciclos reproductivos que siguen patrones similares a Fibonacci: cada generación depende de las dos anteriores. Esto nos permite <strong>proyectar la infestación</strong> con sorprendente precisión.</p>
+        </div>
+        <div class="context-card">
+          <span class="context-card__icon">⚠️</span>
+          <h3>Cuándo actuar</h3>
+          <p>El simulador detecta automáticamente si algún término de la serie es también <strong>número primo</strong>, lo que indica una etapa crítica donde la plaga es especialmente vulnerable a ser controlada.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPLICACIÓN DEL ALGORITMO -->
+    <section class="section section--dark" id="algoritmo">
+      <div class="section__label">02 — Algoritmo</div>
+      <h2 class="section__title">Cómo funciona la simulación</h2>
+      <div class="algo-steps">
+        <div class="algo-step">
+          <div class="algo-step__num">F(1)</div>
+          <div class="algo-step__text">Empezamos con <strong>1 insecto</strong> en el mes 1 (población inicial mínima).</div>
+        </div>
+        <div class="algo-step">
+          <div class="algo-step__num">F(2)</div>
+          <div class="algo-step__text">En el mes 2 hay <strong>1 insecto</strong> (la primera reproducción no produce nuevos individuos aún).</div>
+        </div>
+        <div class="algo-step">
+          <div class="algo-step__num">F(n)</div>
+          <div class="algo-step__text">A partir del mes 3: <strong>F(n) = F(n-1) + F(n-2)</strong>. Cada mes, la nueva población es la suma de los dos meses anteriores.</div>
+        </div>
+        <div class="algo-step">
+          <div class="algo-step__num">🔴</div>
+          <div class="algo-step__text">Si el número de insectos en un mes es <strong>primo</strong>, se marca como <em>etapa crítica</em>: momento ideal para intervención.</div>
+        </div>
+      </div>
+      <div class="algo-code">
+        <pre><code>// Fibonacci sin arrays (solo variables simples)
+let a = 0, b = 1, c;
+for (let i = 2; i &lt;= meses; i++) {
+  c = a + b;   // nueva población = suma de las dos anteriores
+  a = b;
+  b = c;
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- FORMULARIO -->
+    <section class="section" id="simulador">
+      <div class="section__label">03 — Simulación</div>
+      <h2 class="section__title">Ejecutar simulación</h2>
+
+      <div class="form-wrap">
+        <form class="sim-form" id="formPlaga">
+
+          <div class="form-group">
+            <label class="form-label" for="meses">Número de meses a simular</label>
+            <input
+              class="form-input"
+              type="number"
+              id="meses"
+              min="1"
+              max="30"
+              placeholder="ej: 12"
+              required
+            />
+            <span class="form-hint">Entre 1 y 30 meses</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="insecto">Tipo de insecto plaga</label>
+            <select class="form-input form-select" id="insecto">
+              <option value="pulgón">🐛 Pulgón</option>
+              <option value="saltamontes">🦗 Saltamontes</option>
+              <option value="langosta">🦟 Langosta migratoria</option>
+              <option value="mosca blanca">🪲 Mosca blanca</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="umbral">Umbral de alerta (nº de insectos)</label>
+            <input
+              class="form-input"
+              type="number"
+              id="umbral"
+              min="1"
+              placeholder="ej: 50"
+              value="50"
+            />
+            <span class="form-hint">Cantidad a partir de la cual se recomienda intervención</span>
+          </div>
+
+          <button class="btn-simular" type="button" id="btnSimular">
+            <span>▶ Simular crecimiento</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- RESULTADO -->
+    <section class="section section--result" id="resultados">
+      <div class="section__label">04 — Resultados</div>
+      <h2 class="section__title">Proyección de la plaga</h2>
+
+      <div id="resultado" class="resultado-wrap">
+        <div class="resultado-empty">
+          <span>🔬</span>
+          <p>Ingresa los datos arriba y presiona <strong>Simular</strong> para ver la proyección.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCLUSIÓN -->
+    <section class="section" id="conclusion">
+      <div class="section__label">05 — Conclusión</div>
+      <h2 class="section__title">¿Cómo ayuda la matemática?</h2>
+      <div class="conclusion-text">
+        <p>La Serie de Fibonacci no es solo un ejercicio abstracto: <strong>modela fenómenos reales</strong> de crecimiento en la naturaleza. Al aplicarla al crecimiento de plagas, los agricultores pueden anticiparse a infestaciones masivas antes de que ocurran, reduciendo costos y daños.</p>
+        <p>La combinación con <strong>números primos</strong> agrega una capa de análisis: identificar etapas "únicas" en el ciclo de vida de la plaga permite planificar el momento más efectivo para la intervención, optimizando el uso de pesticidas y protegiendo el medio ambiente.</p>
+        <p>Este proyecto demuestra que <em>las matemáticas son una herramienta práctica</em> para resolver problemas del mundo real, desde la agricultura hasta la seguridad informática.</p>
+      </div>
+    </section>
+
+    <!-- ENLACES -->
+    <section class="section section--links" id="enlaces">
+      <div class="section__label">06 — Repositorio y publicación</div>
+      <h2 class="section__title">Entregables</h2>
+      <div class="links-grid">
+        <a href="#" class="link-card" id="linkRepo">
+          <span class="link-card__icon">📁</span>
+          <div>
+            <strong>Repositorio GitHub</strong>
+            <span>Ver código fuente</span>
+          </div>
+        </a>
+        <a href="#" class="link-card" id="linkWeb">
+          <span class="link-card__icon">🌐</span>
+          <div>
+            <strong>Página publicada</strong>
+            <span>Ver sitio en línea</span>
+          </div>
+        </a>
+      </div>
+      <p class="links-note">⚠️ Reemplaza los <code>href="#"</code> con tus enlaces reales antes de entregar.</p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Desafío Web 2025 — Fibonacci &amp; Números Primos • HTML + CSS + JavaScript</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
